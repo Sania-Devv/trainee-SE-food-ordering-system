@@ -9,10 +9,8 @@ function TopBar() {
     <div className="w-full px-5 lg:px-8">
       <div className="mx-auto max-w-6xl bg-[#FAFAFA] border border-black/10 rounded-b-[12px] overflow-hidden">
 
-        {/* ================= DESKTOP / TABLET ROW ================= */}
+        {/*DESKTOP / TABLET ROW*/}
         <div className="hidden sm:flex items-center justify-between h-[50px]">
-
-          {/* LEFT SIDE - Promo */}
           <div className="flex flex-1 items-center gap-2 overflow-hidden">
             <div className="flex items-center gap-1.5 min-w-0">
               <img
@@ -29,7 +27,7 @@ function TopBar() {
             </div>
           </div>
 
-          {/* RIGHT SIDE - Location + Basket */}
+          {/* RIGHT SIDE */}
           <div className="flex items-center flex-shrink-0">
 
             <div className="hidden md:flex items-center gap-1 px-2 lg:px-4">
@@ -62,10 +60,9 @@ function TopBar() {
           </div>
         </div>
 
-        {/* ================= MOBILE ONLY: TOP ROW (Avatar + Cart) ================= */}
+        {/* MOBILE  */}
         <div className="flex sm:hidden items-stretch h-[48px]">
 
-          {/* Left - Avatar / User (Orange) */}
           <div className="flex items-center gap-2 bg-[#FC8A06] pl-4 pr-6 rounded-l-md">
             <img
               src={profileimg}
@@ -87,7 +84,7 @@ function TopBar() {
 
         </div>
 
-        {/* ================= MOBILE ONLY: LOCATION ROW ================= */}
+        {/*MOBILE ONLY: LOCATION ROW */}
         <div className="flex sm:hidden items-center gap-1.5 h-[36px] px-2">
           <img src={Location} alt="location" className="w-3.5 h-3.5 flex-shrink-0" />
           <p className="truncate text-[11px] text-[#03081F]">
