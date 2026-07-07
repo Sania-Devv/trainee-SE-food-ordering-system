@@ -1,13 +1,22 @@
 import React from 'react';
-import ExclusiveDealCard from "../../components/layout/ExclusiveDealCard";
-import PopularCategories from '../../components/layout/PopularCategories';
-import StatsSection from '../../components/layout/StatsSection';
+import ExclusiveDealCard from "../../components/home/ExclusiveDealCard";
+import PopularCategories from '../../components/home/PopularCategories';
+import StatsSection from '../../components/home/StatsSection';
+import Hero from '../../components/home/Hero'
+import Benefits from "../../components/home/Benefits"
+import AboutUs from '../../components/home/AboutUs'
+import Footer from '../../components/layout/Footer';
 export default function Home() {
   return (
     <>
+     <Hero/>
       <ExclusiveDealCard />
        <PopularCategories />
+       
+        <Benefits/>
+        <AboutUs/>
        <StatsSection />
+       <Footer /> 
     </>
   )
 }
