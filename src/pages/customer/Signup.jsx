@@ -1,11 +1,20 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { useTheme } from "../../context/ThemeContext";
-
+import { useDispatch, useSelector } from "react-redux";
+import {
+  registerUser,
+  clearAuthState,
+} from "../../redux/slices/authSlice";
 const Signup = () => {
   const { theme } = useTheme();
   const isDark = theme === "dark";
+const navigate = useNavigate();
+const dispatch = useDispatch();
 
+const { loading, error, success } = useSelector(
+  (state) => state.auth
+);
   const [formData, setFormData] = useState({
     email: "",
     username: "",
@@ -16,7 +25,7 @@ const Signup = () => {
   });
   const [errors, setErrors] = useState({});
   const [showPassword, setShowPassword] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -65,30 +74,29 @@ const Signup = () => {
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
+useEffect(() => {
+  if (success) {
+    alert("Account Created Successfully");
+    dispatch(clearAuthState());
+    navigate("/login");
+  }
+}, [success, dispatch, navigate]);
+  const handleSubmit = (e) => {
+  e.preventDefault();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!validate()) return;
+  if (!validate()) return;
 
-    setIsSubmitting(true);
-    try {
-      const payload = {
-        email: formData.email,
-        username: formData.username,
-        password: formData.password,
-        confirm_password: formData.confirmPassword,
-        country: formData.country,
-        city: formData.city,
-      };
-
-      // TODO (backend integration):
-      // dispatch(registerUser(payload)) -> authSlice async thunk
-      // on success -> auto-login or redirect to /login
-      console.log("Signup payload:", payload);
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
+  dispatch(
+    registerUser({
+      email: formData.email,
+      username: formData.username,
+      password: formData.password,
+      confirm_password: formData.confirmPassword,
+      country: formData.country,
+      city: formData.city,
+    })
+  );
+};
 
   return (
     <div
@@ -289,11 +297,18 @@ const Signup = () => {
           {/* Submit */}
           <button
             type="submit"
-            disabled={isSubmitting}
+            disabled={loading}
             className="w-full bg-orange-500 hover:bg-orange-600 disabled:opacity-60 disabled:cursor-not-allowed text-white text-sm font-semibold rounded-full py-3 transition-colors duration-200"
           >
-            {isSubmitting ? "Creating account..." : "Sign up"}
+            {loading ? "Creating account..." : "Sign up"}
           </button>
+          {error && (
+  <p className="text-red-500 text-center mt-3">
+    {typeof error === "string"
+      ? error
+      : JSON.stringify(error)}
+  </p>
+)}
         </form>
 
         {/* Footer */}

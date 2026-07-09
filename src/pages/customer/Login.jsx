@@ -1,21 +1,49 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { useTheme } from "../../context/ThemeContext";
+import { useDispatch, useSelector } from "react-redux";
+import { loginUser, clearAuthState } from "../../redux/slices/authSlice";
 
 const Login = () => {
   const { theme } = useTheme();
   const isDark = theme === "dark";
 
-  const [formData, setFormData] = useState({ email: "", password: "" });
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const { loading, error, success ,isAdmin } = useSelector(
+    (state) => state.auth
+  );
+
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
+
   const [errors, setErrors] = useState({});
   const [showPassword, setShowPassword] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
+
+ useEffect(() => {
+  if (success) {
+    alert("Login Successful");
+    dispatch(clearAuthState());
+    navigate(isAdmin ? "/admin" : "/");
+  }
+}, [success, isAdmin, dispatch, navigate]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+
     if (errors[name]) {
-      setErrors((prev) => ({ ...prev, [name]: "" }));
+      setErrors((prev) => ({
+        ...prev,
+        [name]: "",
+      }));
     }
   };
 
@@ -26,7 +54,7 @@ const Login = () => {
     if (!formData.email.trim()) {
       newErrors.email = "Email is required";
     } else if (!emailRegex.test(formData.email)) {
-      newErrors.email = "Enter a valid email address";
+      newErrors.email = "Enter a valid email";
     }
 
     if (!formData.password) {
@@ -36,22 +64,16 @@ const Login = () => {
     }
 
     setErrors(newErrors);
+
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
+
     if (!validate()) return;
 
-    setIsSubmitting(true);
-    try {
-      // TODO (backend integration):
-      // dispatch(loginUser(formData)) -> authSlice async thunk
-      // on success -> save token via useAuth, redirect to Home / previous protected route
-      console.log("Login payload:", formData);
-    } finally {
-      setIsSubmitting(false);
-    }
+    dispatch(loginUser(formData));
   };
 
   return (
@@ -67,10 +89,19 @@ const Login = () => {
       >
         {/* Header */}
         <div className="text-center mb-8">
-          <p className={`text-sm mb-1 ${isDark ? "text-orange-400" : "text-orange-500"}`}>
+          <p
+            className={`text-sm mb-1 ${
+              isDark ? "text-orange-400" : "text-orange-500"
+            }`}
+          >
             Welcome back
           </p>
-          <h1 className={`text-2xl sm:text-3xl font-extrabold ${isDark ? "text-white" : "text-gray-900"}`}>
+
+          <h1
+            className={`text-2xl sm:text-3xl font-extrabold ${
+              isDark ? "text-white" : "text-gray-900"
+            }`}
+          >
             Login to your account
           </h1>
         </div>
@@ -80,11 +111,15 @@ const Login = () => {
           <div className="mb-4">
             <label
               htmlFor="email"
-              className={`block text-xs font-semibold mb-1.5 ${isDark ? "text-white" : "text-gray-700"}`}
+              className={`block text-xs font-semibold mb-1.5 ${
+                isDark ? "text-white" : "text-gray-700"
+              }`}
             >
               Email address
             </label>
+
             <input
+              autoComplete="email"
               type="email"
               id="email"
               name="email"
@@ -97,8 +132,11 @@ const Login = () => {
                   : "bg-gray-100 text-gray-900 placeholder-gray-400 border border-transparent focus:border-orange-500"
               } ${errors.email ? "border-red-500" : ""}`}
             />
+
             {errors.email && (
-              <p className="text-red-500 text-xs mt-1 ml-2">{errors.email}</p>
+              <p className="text-red-500 text-xs mt-1 ml-2">
+                {errors.email}
+              </p>
             )}
           </div>
 
@@ -106,12 +144,16 @@ const Login = () => {
           <div className="mb-2">
             <label
               htmlFor="password"
-              className={`block text-xs font-semibold mb-1.5 ${isDark ? "text-white" : "text-gray-700"}`}
+              className={`block text-xs font-semibold mb-1.5 ${
+                isDark ? "text-white" : "text-gray-700"
+              }`}
             >
               Password
             </label>
+
             <div className="relative">
               <input
+                autoComplete="current-password"
                 type={showPassword ? "text" : "password"}
                 id="password"
                 name="password"
@@ -124,9 +166,10 @@ const Login = () => {
                     : "bg-gray-100 text-gray-900 placeholder-gray-400 border border-transparent focus:border-orange-500"
                 } ${errors.password ? "border-red-500" : ""}`}
               />
+
               <button
                 type="button"
-                onClick={() => setShowPassword((prev) => !prev)}
+                onClick={() => setShowPassword(!showPassword)}
                 className={`absolute right-4 top-1/2 -translate-y-1/2 text-xs font-medium ${
                   isDark ? "text-orange-400" : "text-orange-500"
                 }`}
@@ -134,12 +177,15 @@ const Login = () => {
                 {showPassword ? "Hide" : "Show"}
               </button>
             </div>
+
             {errors.password && (
-              <p className="text-red-500 text-xs mt-1 ml-2">{errors.password}</p>
+              <p className="text-red-500 text-xs mt-1 ml-2">
+                {errors.password}
+              </p>
             )}
           </div>
 
-          {/* Forgot password */}
+          {/* Forgot Password */}
           <div className="flex justify-end mb-6">
             <Link
               to="/forgot-password"
@@ -151,20 +197,36 @@ const Login = () => {
             </Link>
           </div>
 
-          {/* Submit */}
+          {/* Login Button */}
           <button
             type="submit"
-            disabled={isSubmitting}
+            disabled={loading}
             className="w-full bg-orange-500 hover:bg-orange-600 disabled:opacity-60 disabled:cursor-not-allowed text-white text-sm font-semibold rounded-full py-3 transition-colors duration-200"
           >
-            {isSubmitting ? "Logging in..." : "Login"}
+            {loading ? "Logging in..." : "Login"}
           </button>
+
+          {/* Backend Error */}
+          {error && (
+            <p className="text-red-500 text-center mt-3">
+              {typeof error === "string"
+                ? error
+                : error.message || JSON.stringify(error)}
+            </p>
+          )}
         </form>
 
         {/* Footer */}
-        <p className={`text-center text-sm mt-6 ${isDark ? "text-gray-300" : "text-gray-600"}`}>
+        <p
+          className={`text-center text-sm mt-6 ${
+            isDark ? "text-gray-300" : "text-gray-600"
+          }`}
+        >
           Don't have an account?{" "}
-          <Link to="/signup" className="text-orange-500 font-semibold hover:underline">
+          <Link
+            to="/signup"
+            className="text-orange-500 font-semibold hover:underline"
+          >
             Sign up
           </Link>
         </p>

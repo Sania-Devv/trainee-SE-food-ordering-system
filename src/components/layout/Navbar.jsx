@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import { HiMenu, HiX } from "react-icons/hi";
+import { useAuth } from "../../hooks/useAuth";
 
 import logo1 from "../../assets/logos/LOGO 1.png";
 import maleuser from "../../assets/icons/Male User.png";
@@ -9,13 +10,19 @@ import { useTheme } from "../../context/ThemeContext";
 
 export default function Navbar() {
   const navigate = useNavigate();
+  const { user, isAuthenticated, logout } = useAuth();
+
+  const handleLogout = () => {
+    logout();
+    navigate("/login");
+  };
+
   const { theme, toggleTheme } = useTheme();
 
   const [menuOpen, setMenuOpen] = useState(false);
 
   const navLinks = [
     { name: "Home", path: "/" },
-    { name: "Browse Menu", path: "/menu" },
     { name: "Special Offers", path: "/offers" },
     { name: "Restaurants", path: "/restaurants" },
     { name: "Track Order", path: "/track-order" },
@@ -72,13 +79,32 @@ export default function Navbar() {
               </div>
 
               {/* Desktop Login Button */}
-              <button
-                onClick={() => navigate("/login")}
-                className="hidden lg:flex items-center lg:gap-1 xl:gap-2 bg-[#03081F] text-white lg:px-2 xl:px-4 lg:py-2 xl:py-3 rounded-full lg:text-xs xl:text-base hover:bg-gray-800 transition cursor-pointer"
-              >
-                <img src={maleuser} alt="User" className="lg:w-6 xl:w-8 h-auto" />
-                <span>Login / Signup</span>
-              </button>
+              {isAuthenticated ? (
+                <div className="hidden lg:flex items-center gap-3">
+                  <span className="font-semibold text-gray-700">
+                    Hi, {user?.username}
+                  </span>
+
+                  <button
+                    onClick={handleLogout}
+                    className="bg-orange-500 text-white px-4 py-2 rounded-full hover:bg-orange-600 transition"
+                  >
+                    Logout
+                  </button>
+                </div>
+              ) : (
+                <button
+                  onClick={() => navigate("/login")}
+                  className="hidden lg:flex items-center lg:gap-1 xl:gap-2 bg-[#03081F] text-white lg:px-2 xl:px-4 lg:py-2 xl:py-3 rounded-full lg:text-xs xl:text-base hover:bg-gray-800 transition cursor-pointer"
+                >
+                  <img
+                    src={maleuser}
+                    alt="User"
+                    className="lg:w-6 xl:w-8 h-auto"
+                  />
+                  <span>Login / Signup</span>
+                </button>
+              )}
 
               {/* Mobile Toggle */}
               <button
@@ -123,16 +149,34 @@ export default function Navbar() {
                   {theme === "dark" ? "☀️ Light Mode" : "🌙 Dark Mode"}
                 </button>
 
-                <button
-                  onClick={() => {
-                    navigate("/login");
-                    setMenuOpen(false);
-                  }}
-                  className="flex items-center justify-center gap-2 bg-black text-white py-3 rounded-lg mt-2"
-                >
-                  <img src={maleuser} alt="User" className="w-5 h-5" />
-                  Login / Signup
-                </button>
+                {isAuthenticated ? (
+                  <>
+                    <p className="text-center font-semibold">
+                      Hi, {user?.username}
+                    </p>
+
+                    <button
+                      onClick={() => {
+                        handleLogout();
+                        setMenuOpen(false);
+                      }}
+                      className="bg-orange-500 text-white py-3 rounded-lg"
+                    >
+                      Logout
+                    </button>
+                  </>
+                ) : (
+                  <button
+                    onClick={() => {
+                      navigate("/login");
+                      setMenuOpen(false);
+                    }}
+                    className="flex items-center justify-center gap-2 bg-black text-white py-3 rounded-lg mt-2"
+                  >
+                    <img src={maleuser} alt="User" className="w-5 h-5" />
+                    Login / Signup
+                  </button>
+                )}
               </div>
             </div>
           )}
