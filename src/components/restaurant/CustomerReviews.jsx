@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import ReviewCard from "./ReviewCard";
-import Star from "../../assets/Images/Star.png";
-import BackArrow from "../../assets/Images/BackArrow.png";
-import ForwardArrow from "../../assets/Images/ForwardArrow.png";
+import Star from "../../assets/images/Star.png";
+import BackArrow from "../../assets/images/BackArrow.png";
+import ForwardArrow from "../../assets/images/ForwardArrow.png";
 
 const reviews = [
   {
@@ -90,8 +90,9 @@ function CustomerReviews() {
   };
 
   return (
-    <section className="mt-10">
-      <div className="relative w-full max-w-7xl mx-auto bg-[#D9D9D9] px-4 sm:px-6 lg:px-8 pt-8 sm:pt-12 lg:pt-16 pb-24 lg:pb-60">
+    <section className="max-w-7xl mx-auto px-6 py-8">
+      {" "}
+      <div className="relative w-full max-w-7xl mx-auto bg-[#D9D9D9] px-4 sm:px-6 lg:px-8 pt-8 sm:pt-12 lg:pt-5 pb-24">
         {" "}
         {/* Heading */}
         <div className="flex justify-between items-center mb-8">
@@ -186,9 +187,9 @@ function CustomerReviews() {
           </button>
         </div>
         {/* Desktop Rating Card */}
-        <div className="hidden lg:flex absolute left-1/2 -translate-x-1/2 bottom-6 z-20">
-          <div className="relative z-20 w-[153px] h-[178px] bg-white rounded-xl shadow-lg flex flex-col items-center justify-center">
-            <h2 className="text-[58px] font-bold leading-none">3.4</h2>
+        <div className="hidden lg:flex absolute left-1/2 -translate-x-1/2 -bottom-15 z-20">
+          <div className="relative z-20 w-[140px] h-[128px] bg-white rounded-xl shadow-lg flex flex-col items-center justify-center">
+            <h2 className="text-[48px] font-bold leading-none">3.4</h2>
 
             <div className="flex gap-1 mt-3">
               {[1, 2, 3, 4].map((i) => (
@@ -202,7 +203,6 @@ function CustomerReviews() {
           </div>
         </div>
       </div>
-
       {/* Space below rating card */}
       <div className="h-[180px] lg:h-[40px]"></div>
     </section>

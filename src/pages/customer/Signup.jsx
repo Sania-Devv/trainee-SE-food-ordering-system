@@ -2,19 +2,20 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useTheme } from "../../context/ThemeContext";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  registerUser,
-  clearAuthState,
-} from "../../redux/slices/authSlice";
+import { registerUser, clearAuthState } from "../../redux/slices/authSlice";
+import { useToast } from "../../context/ToastContext";
+
 const Signup = () => {
   const { theme } = useTheme();
   const isDark = theme === "dark";
-const navigate = useNavigate();
-const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { showToast } = useToast();
 
-const { loading, error, success } = useSelector(
-  (state) => state.auth
-);
+  const { loading, error, success, successMessage } = useSelector(
+    (state) => state.auth
+  );
+
   const [formData, setFormData] = useState({
     email: "",
     username: "",
@@ -26,7 +27,6 @@ const { loading, error, success } = useSelector(
   const [errors, setErrors] = useState({});
   const [showPassword, setShowPassword] = useState(false);
 
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -35,15 +35,17 @@ const { loading, error, success } = useSelector(
     }
   };
 
-  const validate = () => {
-    const newErrors = {};
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+ const validate = () => {
+  const newErrors = {};
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
-    if (!formData.email.trim()) {
-      newErrors.email = "Email is required";
-    } else if (!emailRegex.test(formData.email)) {
-      newErrors.email = "Enter a valid email address";
-    }
+  const trimmedEmail = formData.email.trim();
+
+  if (!trimmedEmail) {
+    newErrors.email = "Email is required";
+  } else if (!emailRegex.test(trimmedEmail)) {
+    newErrors.email = "Enter a valid email address";
+  }
 
     if (!formData.username.trim()) {
       newErrors.username = "Username is required";
@@ -74,29 +76,40 @@ const { loading, error, success } = useSelector(
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
-useEffect(() => {
-  if (success) {
-    alert("Account Created Successfully");
-    dispatch(clearAuthState());
-    navigate("/login");
-  }
-}, [success, dispatch, navigate]);
+
+  // Success -> backend ka message toast mein dikhao + redirect
+  useEffect(() => {
+    if (success) {
+      showToast(successMessage || "Account created successfully", "success");
+      dispatch(clearAuthState());
+      navigate("/login");
+    }
+  }, [success, successMessage, dispatch, navigate, showToast]);
+
+  // Error -> backend ka error message toast mein dikhao
+  useEffect(() => {
+    if (error) {
+      showToast(error, "error");
+      dispatch(clearAuthState());
+    }
+  }, [error, dispatch, showToast]);
+
   const handleSubmit = (e) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  if (!validate()) return;
+    if (!validate()) return;
 
-  dispatch(
-    registerUser({
-      email: formData.email,
-      username: formData.username,
-      password: formData.password,
-      confirm_password: formData.confirmPassword,
-      country: formData.country,
-      city: formData.city,
-    })
-  );
-};
+    dispatch(
+      registerUser({
+        email: formData.email,
+        username: formData.username,
+        password: formData.password,
+        confirm_password: formData.confirmPassword,
+        country: formData.country,
+        city: formData.city,
+      })
+    );
+  };
 
   return (
     <div
@@ -302,13 +315,6 @@ useEffect(() => {
           >
             {loading ? "Creating account..." : "Sign up"}
           </button>
-          {error && (
-  <p className="text-red-500 text-center mt-3">
-    {typeof error === "string"
-      ? error
-      : JSON.stringify(error)}
-  </p>
-)}
         </form>
 
         {/* Footer */}

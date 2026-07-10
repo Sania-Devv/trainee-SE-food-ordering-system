@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useTheme } from "../../context/ThemeContext";
 import { useDispatch, useSelector } from "react-redux";
 import { loginUser, clearAuthState } from "../../redux/slices/authSlice";
+import { useToast } from "../../context/ToastContext";
 
 const Login = () => {
   const { theme } = useTheme();
@@ -10,8 +11,9 @@ const Login = () => {
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { showToast } = useToast();
 
-  const { loading, error, success ,isAdmin } = useSelector(
+  const { loading, error, success, isAdmin, successMessage } = useSelector(
     (state) => state.auth
   );
 
@@ -23,13 +25,22 @@ const Login = () => {
   const [errors, setErrors] = useState({});
   const [showPassword, setShowPassword] = useState(false);
 
- useEffect(() => {
-  if (success) {
-    alert("Login Successful");
-    dispatch(clearAuthState());
-    navigate(isAdmin ? "/admin" : "/");
-  }
-}, [success, isAdmin, dispatch, navigate]);
+  // Success -> backend ka message toast mein dikhao + redirect
+  useEffect(() => {
+    if (success) {
+      showToast(successMessage || "Login successful", "success");
+      dispatch(clearAuthState());
+      navigate(isAdmin ? "/admin" : "/");
+    }
+  }, [success, isAdmin, successMessage, dispatch, navigate, showToast]);
+
+  // Error -> backend ka error message toast mein dikhao
+  useEffect(() => {
+    if (error) {
+      showToast(error, "error");
+      dispatch(clearAuthState());
+    }
+  }, [error, dispatch, showToast]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -205,15 +216,6 @@ const Login = () => {
           >
             {loading ? "Logging in..." : "Login"}
           </button>
-
-          {/* Backend Error */}
-          {error && (
-            <p className="text-red-500 text-center mt-3">
-              {typeof error === "string"
-                ? error
-                : error.message || JSON.stringify(error)}
-            </p>
-          )}
         </form>
 
         {/* Footer */}

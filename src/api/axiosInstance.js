@@ -1,11 +1,11 @@
-import axios from "axios";
+// import axios from "axios";
 
-const axiosInstance = axios.create({
-  baseURL: "http://127.0.0.1:8000",
-  headers: {
-    "Content-Type": "application/json",
-  },
-});
+// const axiosInstance = axios.create({
+//   baseURL: "http://127.0.0.1:8000",
+//   headers: {
+//     "Content-Type": "application/json",
+//   },
+// });
 
 // Automatically attach token with every request
 // axiosInstance.interceptors.request.use(
@@ -21,4 +21,4 @@ const axiosInstance = axios.create({
 //   (error) => Promise.reject(error)
 // );
 
-export default axiosInstance;
+// export default axiosInstance;

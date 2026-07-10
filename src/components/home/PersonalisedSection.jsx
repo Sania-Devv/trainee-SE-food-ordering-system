@@ -1,19 +1,18 @@
-import Logo from "../../assets/logos/LOGO 1.png";
-import AppStore from "../../assets/Images/AppStore.png";
-import PlayStore from "../../assets/Images/PlayStore.png";
-import Friends from "../../assets/Images/Friends.png";
+import Logo from "../../assets/logos/Logo.png";
+import AppStore from "../../assets/images/AppStore.png";
+import PlayStore from "../../assets/images/PlayStore.png";
+import Friends from "../../assets/images/Friends.png";
 
 function PersonalisedSection() {
   return (
-    <section className="w-full max-w-7xl mx-auto px-3 sm:px-5 lg:px-8 py-5 sm:py-6 overflow-hidden ">
+    <section className="max-w-7xl mx-auto mt-8 px-4">
       <div
         className="
           w-full
-          max-w-[1533px]
-          xl:min-h-[600px]
+          xl:max-h-[500px]
           mx-auto
           overflow-visible
-          px-4 sm:px-6 lg:px-8
+          px-4 sm:px-6 lg:px-8 
         "
         style={{
           background: "linear-gradient(180deg, #EEEEEE 0%, #E0E1DC 100%)",
@@ -88,7 +87,7 @@ function PersonalisedSection() {
         {/* ========================= */}
 
         <div
-          className="hidden lg:flex flex-row items-center relative pt-8 pb-2 xl:py-0 xl:min-h-[600px]"
+          className="hidden lg:flex flex-row items-center relative pt-8 bor pb-0 xl:py-0 xl:min-h-[600px]"
           style={{ overflow: "visible" }}
         >
           {/* LEFT IMAGE */}
@@ -102,13 +101,13 @@ function PersonalisedSection() {
               className="
     w-full
     max-w-[420px]
-    xl:max-w-[832px]
-    2xl:max-w-[900px]
+    xl:max-w-[590px]
+    2xl:max-w-[600px]
     h-auto
     object-contain
     block
     drop-shadow-[0_12px_25px_rgba(0,0,0,0.22)]
-    -mt-4 xl:-mt-10
+    -mt-4 xl:-mt-16
 "
             />
           </div>
@@ -120,10 +119,10 @@ function PersonalisedSection() {
               <img
                 src={Logo}
                 alt="Order UK"
-                className="h-[32px] lg:h-[50px] xl:h-[66px] 2xl:h-[72px] flex-shrink-0"
+                className="h-[32px] lg:h-[50px] xl:h-[66px] 2xl:h-[52px] flex-shrink-0"
               />
 
-              <span className="ml-0 translate-y-1.5 whitespace-nowrap text-[#03081F] font-bold leading-none text-[26px] lg:text-[42px] xl:text-[58px] 2xl:text-[64px]">
+              <span className="ml-0 translate-y-1.5 whitespace-nowrap text-[#03081F] font-bold leading-none text-[26px] lg:text-[42px] xl:text-[58px] 2xl:text-[52px]">
                 ing is more
               </span>
             </div>
@@ -133,9 +132,9 @@ function PersonalisedSection() {
                 mt-2
                 lg:mt-2
                 w-[300px]
-                lg:w-[520px]
-                xl:w-[800px]
-                2xl:w-[860px]
+                lg:w-[560px]
+                xl:w-[700px]
+                2xl:w-[660px]
                 h-[52px]
                 lg:h-[75px]
                 xl:h-[90px]
@@ -147,13 +146,13 @@ function PersonalisedSection() {
                 px-6
                 lg:px-10
                 -ml-4
-                lg:-ml-14
-                xl:-ml-56
+                lg:-ml-30
+                xl:-ml-46
                 relative
                 z-0
               "
             >
-              <p className="whitespace-nowrap font-medium text-[15px] lg:text-[26px] xl:text-[34px] 2xl:text-[36px] ml-8 lg:ml-20 xl:ml-32">
+              <p className="whitespace-nowrap font-medium text-[15px] lg:text-[26px] xl:text-[34px] 2xl:text-[30px] ml-8 lg:ml-20 xl:ml-32">
                 <span className="text-[#FC8A06] underline underline-offset-4">
                   Personalised
                 </span>
@@ -163,7 +162,7 @@ function PersonalisedSection() {
             </div>
 
             {/* DESCRIPTION + BUTTONS */}
-            <div className="mt-6 lg:mt-8 ml-2 lg:ml-6 xl:ml-16 flex flex-col items-start">
+            <div className="mt-6 lg:mt-8 ml-2 lg:ml-6 xl:ml-6 flex flex-col items-start">
               <p className="text-[11px] lg:text-[13px] xl:text-[15px] text-[#03081F] mb-4 lg:mb-6">
                 Download the Order.uk app for faster ordering
               </p>

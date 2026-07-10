@@ -1,9 +1,9 @@
-import Star from "../../assets/Images/Star.png";
-import Clock from "../../assets/Images/Clock.png";
+import Star from "../../assets/images/Star.png";
+import Clock from "../../assets/images/Clock.png";
 
 function ReviewCard({ name, city, review, date }) {
   return (
-    <div className="w-full h-full lg:min-h-[310px] bg-white rounded-[4px] px-4 sm:px-5 lg:px-5 py-3 sm:py-4 lg:py-6 flex flex-col overflow-hidden">
+    <div className="w-full h-full lg:h-[200px] bg-white rounded-[4px] px-4 sm:px-5 lg:px-5 py-3 sm:py-4 lg:py-6 flex flex-col overflow-hidden">
       {" "}
       <div className="flex justify-between items-start gap-2 min-w-0">
         {/* Left */}

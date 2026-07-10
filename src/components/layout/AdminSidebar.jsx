@@ -20,11 +20,14 @@ const AdminSidebar = () => {
   const navigate = useNavigate();
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  const handleLogout = () => {
-    logout();
-    navigate("/login");
-  };
-
+  // const handleLogout = () => {
+  //   logout();
+  //   navigate("/login");
+  // };
+const handleLogout = () => {
+  navigate("/login");
+  logout();
+};
   const links = [
     { name: "Dashboard", path: "/admin", icon: HiOutlineViewGrid, end: true },
     { name: "Manage Orders", path: "/admin/orders", icon: HiOutlineClipboardList },

@@ -19,17 +19,19 @@ import DashboardHome from "./pages/admin/DashboardHome";
 import ManageOrders from "./pages/admin/ManageOrders";
 import ManageMenu from "./pages/admin/ManageMenu";
 import Analytics from "./pages/admin/Analytics";
+import CustomerRoute from "./routes/CustomerRoute";
 
 function App() {
   return (
     <Routes>
+      <Route element={<CustomerRoute />}>
       <Route element={<Navbar />}>
         <Route path="/" element={<Home />} />
         <Route path="/menu" element={<MenuItemDetail />} />
         <Route path="/offers" element={<Offers />} />
         <Route path="/restaurants" element={<RestaurantDetail />} />
         <Route path="/cart" element={<Cart />} />
-
+      
         <Route
           path="/track-order"
           element={
@@ -66,7 +68,7 @@ function App() {
           }
         />
       </Route>
-
+   </Route>
       <Route element={<AuthLayout />}>
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
