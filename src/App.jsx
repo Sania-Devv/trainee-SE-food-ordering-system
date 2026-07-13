@@ -20,6 +20,7 @@ import ManageOrders from "./pages/admin/ManageOrders";
 import ManageMenu from "./pages/admin/ManageMenu";
 import Analytics from "./pages/admin/Analytics";
 import CustomerRoute from "./routes/CustomerRoute";
+import DealDetail from "./pages/DealDetail";
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
         <Route path="/offers" element={<Offers />} />
         <Route path="/restaurants" element={<RestaurantDetail />} />
         <Route path="/cart" element={<Cart />} />
+        <Route path="/deal/:id" element={<DealDetail />} />
       
         <Route
           path="/track-order"

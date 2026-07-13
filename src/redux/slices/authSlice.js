@@ -127,7 +127,7 @@ const extractErrorMessage = (payload) => {
 
   if (typeof rawError !== "string") return "Something went wrong";
 
-  // Django-style messy string se readable message nikalna
+
   const match = rawError.match(/string=['"]([^'"]+)['"]/);
   if (match) return match[1];
 
