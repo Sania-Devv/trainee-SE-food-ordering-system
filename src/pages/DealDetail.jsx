@@ -7,8 +7,7 @@ import DealInfo from "../components/deal/DealInfo";
 import WhatsIncluded from "../components/deal/WhatsIncluded";
 import RestaurantInfo from "../components/deal/RestaurantInfo";
 import SimilarDeals from "../components/deal/SimilarDeals";
-import BottomCart from "../components/deal/BottomCart";
-
+import { Link } from "react-router-dom";
 
 function DealDetail() {
    const { id } = useParams();
@@ -37,13 +36,16 @@ function DealDetail() {
       <div className="max-w-7xl mx-auto px-4">
 
         {/* Breadcrumb */}
-       <p className="text-sm text-gray-500 mb-6">
-     Home / Deals /
-     <span className="text-[#FC8A06]">
-      {" "}
-      {deal?.name}
-      </span>
-      </p>
+<p className="text-sm text-gray-500 mb-6">
+  <Link to="/" className="hover:text-[#FC8A06] transition">
+    Home
+  </Link>{" "}
+  /
+  <span className="text-[#FC8A06]">
+    {" "}
+    {deal?.name}
+  </span>
+</p>
 
         {/* Hero Section */}
         <div className="bg-white rounded-3xl shadow-sm p-5 lg:p-8">
@@ -79,9 +81,7 @@ function DealDetail() {
 
       </div>
 
-      {/* Bottom Sticky Cart */}
-
-      <BottomCart deal={deal}/>
+    
 
     </section>
   );

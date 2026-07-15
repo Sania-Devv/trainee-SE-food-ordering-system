@@ -16,10 +16,9 @@ function SimilarDeals() {
   }
 
   // Current deal ko hata do aur sirf 4 show karo
-  const similarDeals = allDeals
-    .filter((deal) => deal.id !== currentDeal?.id)
-    .slice(0, 4);
-
+ 
+ const similarDeals = allDeals.filter((deal) => deal.id !== currentDeal?.id);
+  
   return (
     <section className="bg-white rounded-3xl shadow-sm p-6">
       <div className="flex justify-between items-center mb-6">
@@ -27,10 +26,10 @@ function SimilarDeals() {
           Similar Deals
         </h2>
 
-        <button className="text-[#FC8A06] flex items-center gap-2 font-semibold hover:gap-3 transition-all">
+        {/* <button className="text-[#FC8A06] flex items-center gap-2 font-semibold hover:gap-3 transition-all">
           View All
           <HiArrowRight />
-        </button>
+        </button> */}
       </div>
 
       {similarDeals.length === 0 ? (

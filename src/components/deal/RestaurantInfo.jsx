@@ -13,7 +13,7 @@ function RestaurantInfo() {
 
   const image = restaurant?.image
     ? `http://127.0.0.1:8000${restaurant.image}`
-    : "https://via.placeholder.com/80";
+    : null;
 
   return (
     <div className="bg-white rounded-3xl shadow-sm p-6">

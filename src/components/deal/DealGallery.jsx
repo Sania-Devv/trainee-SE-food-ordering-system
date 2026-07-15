@@ -5,7 +5,7 @@ function DealGallery() {
 
   const image = dealDetail?.image
     ? `http://127.0.0.1:8000${dealDetail.image}`
-    : "https://via.placeholder.com/800x500?text=Deal+Image";
+    : null;
 
   return (
     <div className="relative overflow-hidden rounded-3xl h-[300px] sm:h-[380px] lg:h-[460px]">
@@ -20,6 +20,7 @@ function DealGallery() {
           Featured Deal
         </div>
       )}
+      
     </div>
   );
 }
