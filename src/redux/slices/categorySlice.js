@@ -1,11 +1,13 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { BASE_URL } from "../../api/api";
+import { ENDPOINTS } from "../../api/endpoints";
 
-const BASE_URL = "http://127.0.0.1:8000";
 export const fetchCategory = createAsyncThunk(
   "category/fetchCategory",
   async (_, thunkAPI) => {
     try {
-      const response = await fetch(`${BASE_URL}/restaurants/all-category`, {
+      const response = await fetch(
+  `${BASE_URL}${ENDPOINTS.GET_CATEGORIES}`, {
         method: "GET",
       });
       const data = await response.json();

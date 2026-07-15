@@ -1,12 +1,15 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
-const BASE_URL = "http://127.0.0.1:8000";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { BASE_URL } from "../../api/api";
+import { ENDPOINTS } from "../../api/endpoints";
+
 
 export const fetchMenuItems = createAsyncThunk(
   "menuItems/fetchMenuItems",
   async (_, thunkAPI) => {
     try {
-      const response = await fetch(`${BASE_URL}/restaurants/all-menu-items`, {
+      const response = await fetch(
+  `${BASE_URL}${ENDPOINTS.GET_ALL_MENU}`, {
         method: "GET",
       });
       const data = await response.json();

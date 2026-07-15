@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchDealById } from "../redux/slices/dealSlice";
+import { fetchDealById , fetchAllDeals } from "../redux/slices/dealSlice";
 import DealGallery from "../components/deal/DealGallery";
 import DealInfo from "../components/deal/DealInfo";
 import WhatsIncluded from "../components/deal/WhatsIncluded";
@@ -20,9 +20,9 @@ function DealDetail() {
   );
 
   useEffect(() => {
-    dispatch(fetchDealById(id));
-  }, [dispatch, id]);
-
+  dispatch(fetchDealById(id));
+  dispatch(fetchAllDeals());
+}, [dispatch, id]);
   if (loading) {
     return <h2 className="text-center py-10">Loading...</h2>;
   }
@@ -48,7 +48,7 @@ function DealDetail() {
         {/* Hero Section */}
         <div className="bg-white rounded-3xl shadow-sm p-5 lg:p-8">
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
 
             <DealGallery deal={deal} />
 
@@ -68,7 +68,7 @@ function DealDetail() {
 
         <div className="mt-8">
          
-<RestaurantInfo deal={deal} />
+       <RestaurantInfo deal={deal} />
         </div>
 
         {/* Similar Deals */}

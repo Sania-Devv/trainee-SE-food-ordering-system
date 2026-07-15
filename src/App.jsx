@@ -26,51 +26,51 @@ function App() {
   return (
     <Routes>
       <Route element={<CustomerRoute />}>
-      <Route element={<Navbar />}>
-        <Route path="/" element={<Home />} />
-        <Route path="/menu" element={<MenuItemDetail />} />
-        <Route path="/offers" element={<Offers />} />
-        <Route path="/restaurants" element={<RestaurantDetail />} />
-        <Route path="/cart" element={<Cart />} />
-        <Route path="/deal/:id" element={<DealDetail />} />
-      
-        <Route
-          path="/track-order"
-          element={
-            <ProtectedRoute>
-              <OrderTracking />
-            </ProtectedRoute>
-          }
-        />
+        <Route element={<Navbar />}>
+          <Route path="/" element={<Home />} />
+          <Route path="/menu" element={<MenuItemDetail />} />
+          <Route path="/offers" element={<Offers />} />
+          <Route path="/restaurants" element={<RestaurantDetail />} />
+          <Route path="/cart" element={<Cart />} />
+          <Route path="/deal/:id" element={<DealDetail />} />
 
-        <Route
-          path="/checkout"
-          element={
-            <ProtectedRoute>
-              <Checkout />
-            </ProtectedRoute>
-          }
-        />
+          <Route
+            path="/track-order"
+            element={
+              <ProtectedRoute>
+                <OrderTracking />
+              </ProtectedRoute>
+            }
+          />
 
-        <Route
-          path="/orders"
-          element={
-            <ProtectedRoute>
-              <OrderHistory />
-            </ProtectedRoute>
-          }
-        />
+          <Route
+            path="/checkout"
+            element={
+              <ProtectedRoute>
+                <Checkout />
+              </ProtectedRoute>
+            }
+          />
 
-        <Route
-          path="/profile"
-          element={
-            <ProtectedRoute>
-              <Profile />
-            </ProtectedRoute>
-          }
-        />
+          <Route
+            path="/orders"
+            element={
+              <ProtectedRoute>
+                <OrderHistory />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoute>
+                <Profile />
+              </ProtectedRoute>
+            }
+          />
+        </Route>
       </Route>
-   </Route>
       <Route element={<AuthLayout />}>
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />

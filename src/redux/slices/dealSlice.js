@@ -1,13 +1,13 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-
-const BASE_URL = "http://127.0.0.1:8000";
+import { BASE_URL } from "../../api/api";
+import { ENDPOINTS } from "../../api/endpoints";
 
 export const fetchDealById = createAsyncThunk(
   "deal/fetchDealById",
   async (id, thunkAPI) => {
     try {
       const response = await fetch(
-        `${BASE_URL}/restaurants/deal/${id}/`
+        `${BASE_URL}${ENDPOINTS.GET_DEAL_BY_ID}${id}/`
       );
 
       const data = await response.json();
@@ -22,15 +22,38 @@ export const fetchDealById = createAsyncThunk(
         error: "Network Error",
       });
     }
-  }
+  },
 );
+export const fetchAllDeals = createAsyncThunk(
+  "deal/fetchAllDeals",
+  async (_, thunkAPI) => {
+    try {
+      const response = await fetch(
+        `${BASE_URL}${ENDPOINTS.GET_ALL_DEALS}`
+      );
 
+      const data = await response.json();
+
+      if (!response.ok) {
+        return thunkAPI.rejectWithValue(data);
+      }
+
+      return data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue({
+        error: "Network Error",
+      });
+    }
+  },
+);
 const dealSlice = createSlice({
   name: "deal",
 
   initialState: {
     deal: null,
+    allDeals: [],
     loading: false,
+    allDealsLoading: false,
     error: null,
   },
 
@@ -49,6 +72,17 @@ const dealSlice = createSlice({
 
       .addCase(fetchDealById.rejected, (state, action) => {
         state.loading = false;
+        state.error = action.payload?.error;
+      })
+      .addCase(fetchAllDeals.pending, (state) => {
+        state.allDealsLoading = true;
+      })
+      .addCase(fetchAllDeals.fulfilled, (state, action) => {
+        state.allDealsLoading = false;
+        state.allDeals = action.payload.data;
+      })
+      .addCase(fetchAllDeals.rejected, (state, action) => {
+        state.allDealsLoading = false;
         state.error = action.payload?.error;
       });
   },
