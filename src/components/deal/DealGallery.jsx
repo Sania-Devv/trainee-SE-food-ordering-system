@@ -1,11 +1,11 @@
 import { useSelector } from "react-redux";
+import { BASE_URL } from "../../api/api";
+
 
 function DealGallery() {
   const { deal: dealDetail } = useSelector((state) => state.deal);
 
-  const image = dealDetail?.image
-    ? `http://127.0.0.1:8000${dealDetail.image}`
-    : null;
+  const image = dealDetail?.image ? `${BASE_URL}${dealDetail.image}` : null;
 
   return (
     <div className="relative overflow-hidden rounded-3xl h-[300px] sm:h-[380px] lg:h-[460px]">
@@ -20,7 +20,6 @@ function DealGallery() {
           Featured Deal
         </div>
       )}
-      
     </div>
   );
 }

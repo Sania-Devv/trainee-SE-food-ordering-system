@@ -267,6 +267,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { BASE_URL } from "../../api/api";
 import {
   fetchCart,
   updateCartItem,
@@ -274,14 +275,12 @@ import {
 } from "../../redux/slices/cartSlice";
 import cartIcon from "../../assets/icons/shoppingCart.png";
 
-const BASE_URL = "http://127.0.0.1:8000";
-
 export default function Cart() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const { items, totalPrice, loading, error } = useSelector(
-    (state) => state.cart
+    (state) => state.cart,
   );
 
   useEffect(() => {
@@ -304,14 +303,16 @@ export default function Cart() {
   }
 
   const handleIncrease = (item) => {
-    dispatch(updateCartItem({ itemId: item.id, quantity: item.quantity + 1 }))
-      .then(() => dispatch(fetchCart()));
+    dispatch(
+      updateCartItem({ itemId: item.id, quantity: item.quantity + 1 }),
+    ).then(() => dispatch(fetchCart()));
   };
 
   const handleDecrease = (item) => {
     if (item.quantity <= 1) return;
-    dispatch(updateCartItem({ itemId: item.id, quantity: item.quantity - 1 }))
-      .then(() => dispatch(fetchCart()));
+    dispatch(
+      updateCartItem({ itemId: item.id, quantity: item.quantity - 1 }),
+    ).then(() => dispatch(fetchCart()));
   };
 
   const handleDelete = (itemId) => {
@@ -437,4 +438,3 @@ export default function Cart() {
     </section>
   );
 }
-

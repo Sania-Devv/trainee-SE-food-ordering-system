@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
-const BASE_URL = "http://127.0.0.1:8000";
+import { BASE_URL } from "../../api/api";
+
 
 export const fetchMenuItems = createAsyncThunk(
   "menu/fetchMenuItems",
@@ -22,7 +23,7 @@ export const fetchMenuItems = createAsyncThunk(
         error: "Network error, please try again.",
       });
     }
-  }
+  },
 );
 
 const initialState = {
@@ -50,8 +51,7 @@ const menuSlice = createSlice({
 
       .addCase(fetchMenuItems.rejected, (state, action) => {
         state.loading = false;
-        state.error =
-          action.payload?.error || "Something went wrong";
+        state.error = action.payload?.error || "Something went wrong";
       });
   },
 });

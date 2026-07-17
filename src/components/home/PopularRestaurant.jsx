@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchRestaurants } from "../../redux/slices/restaurantSlice";
 import RestaurantCard from "./RestaurantCard";
+import { BASE_URL } from "../../api/api";
 
 function PopularRestaurants() {
   const dispatch = useDispatch();
@@ -13,14 +14,10 @@ function PopularRestaurants() {
   useEffect(() => {
     dispatch(fetchRestaurants());
   }, [dispatch]);
- if (error) {
-  return (
-    <h2 className="text-center text-red-500 py-5">
-      {error}
-    </h2>
-  );
-}
-const sortedRestaurants = [...restaurants].sort((a, b) => a.id - b.id);
+  if (error) {
+    return <h2 className="text-center text-red-500 py-5">{error}</h2>;
+  }
+  const sortedRestaurants = [...restaurants].sort((a, b) => a.id - b.id);
   return (
     <section className="w-full max-w-7xl mx-auto px-3 sm:px-5 lg:px-8 py-5 sm:py-6 overflow-hidden">
       <h2 className="text-lg sm:text-xl lg:text-2xl font-semibold mb-5 sm:mb-6">
@@ -38,7 +35,7 @@ const sortedRestaurants = [...restaurants].sort((a, b) => a.id - b.id);
               <RestaurantCard
                 image={
                   restaurant.image
-                    ? `http://127.0.0.1:8000${restaurant.image}`
+                    ? `${BASE_URL}${restaurant.image}`
                     : "https://via.placeholder.com/150"
                 }
                 title={restaurant.name}
@@ -55,7 +52,7 @@ const sortedRestaurants = [...restaurants].sort((a, b) => a.id - b.id);
             key={restaurant.id}
             image={
               restaurant.image
-                ? `http://127.0.0.1:8000${restaurant.image}`
+                ? `${BASE_URL}${restaurant.image}`
                 : "https://via.placeholder.com/150"
             }
             title={restaurant.name}

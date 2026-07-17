@@ -25,6 +25,7 @@ import { IoChevronDown } from "react-icons/io5";
 import { useTheme } from "../../context/ThemeContext";
 import { useNavigate } from "react-router-dom";
 import { fetchMenuItems } from "../../redux/slices/menuSlice";
+import { BASE_URL } from "../../api/api";
 
 // Naam ke basis pe category ka component match karne ke liye mapping.
 // IMPORTANT: yahan keys bilkul wahi honi chahiye jo backend se cat.name
@@ -86,8 +87,7 @@ function MenuItems() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   // Currently active tab ka naam (Offers ke ilawa)
-  const selectedCategory =
-    activeTab === 0 ? null : categories[activeTab - 1];
+  const selectedCategory = activeTab === 0 ? null : categories[activeTab - 1];
 
   // item.category?.id — agar kisi item ka category null hai to crash nahi hoga,
   // wo item bas filter se bahar reh jayega
@@ -257,7 +257,7 @@ function MenuItems() {
                     <img
                       src={
                         item.image
-                          ? `http://127.0.0.1:8000${item.image}`
+                          ? `${BASE_URL}${item.image}`
                           : "https://via.placeholder.com/150?text=No+Image"
                       }
                       alt={item.name}

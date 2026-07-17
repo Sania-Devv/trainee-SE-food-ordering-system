@@ -5,6 +5,8 @@ import menuReducer from "./slices/menuSlice";
 import restaurantReducer from "./slices/restaurantSlice";
 import dealReducer from "./slices/dealSlice";
 import cartReducer from "./slices/cartSlice";
+import orderReducer from "./slices/orderSlice";
+import adminAnalyticsReducer from "./slices/adminAnalyticsSlice";
 export const store = configureStore({
   reducer: {
     auth: authReducer,
@@ -13,5 +15,7 @@ export const store = configureStore({
        restaurants: restaurantReducer,
        deal: dealReducer,
        cart: cartReducer,
+      order: orderReducer,
+     adminAnalytics: adminAnalyticsReducer,
   },
 });

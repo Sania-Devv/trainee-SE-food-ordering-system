@@ -3,15 +3,16 @@ import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import { useTheme } from "../../context/ThemeContext";
 import { useAuth } from "../../hooks/useAuth";
 import {
-  HiOutlineViewGrid,
-  HiOutlineClipboardList,
-  HiOutlineCollection,
-  HiOutlineChartBar,
-  HiOutlineLogout,
-  HiMenu,
-  HiX,
-} from "react-icons/hi";
+  LayoutDashboard,
+  ClipboardList,
+  UtensilsCrossed,
+  BarChart3,
+  LogOut,
+  Menu,
+  X,
+} from "lucide-react";
 import logo1 from "../../assets/logos/LOGO 1.png";
+import sidebarImg from "../../assets/logos/sidebarimg.png";
 
 const AdminSidebar = () => {
   const { theme, toggleTheme } = useTheme();
@@ -24,20 +25,37 @@ const AdminSidebar = () => {
   //   logout();
   //   navigate("/login");
   // };
-const handleLogout = () => {
-  navigate("/login");
-  logout();
-};
+  const handleLogout = () => {
+    navigate("/login");
+    logout();
+  };
   const links = [
-    { name: "Dashboard", path: "/admin", icon: HiOutlineViewGrid, end: true },
-    { name: "Manage Orders", path: "/admin/orders", icon: HiOutlineClipboardList },
-    { name: "Manage Menu", path: "/admin/menu", icon: HiOutlineCollection },
-    { name: "Analytics", path: "/admin/analytics", icon: HiOutlineChartBar },
+    {
+      name: "Dashboard",
+      path: "/admin",
+      icon: LayoutDashboard,
+      end: true,
+    },
+    {
+      name: "Manage Orders",
+      path: "/admin/orders",
+      icon: ClipboardList,
+    },
+    {
+      name: "Manage Menu",
+      path: "/admin/menu",
+      icon: UtensilsCrossed,
+    },
+    {
+      name: "Analytics",
+      path: "/admin/analytics",
+      icon: BarChart3,
+    },
   ];
-
   return (
-    <div className={`min-h-screen flex transition-colors duration-300 ${isDark ? "bg-[#03081F]" : "bg-gray-50"}`}>
-
+    <div
+      className={`min-h-screen flex transition-colors duration-300 ${isDark ? "bg-[#03081F]" : "bg-gray-50"}`}
+    >
       {/* Mobile overlay */}
       {sidebarOpen && (
         <div
@@ -56,17 +74,24 @@ const handleLogout = () => {
         `}
       >
         <div className="px-5 py-6 flex items-center justify-between">
-          <img src={logo1} alt="Logo" className="w-20" />
-          <button className="lg:hidden text-2xl" onClick={() => setSidebarOpen(false)}>
-            <HiX className={isDark ? "text-white" : "text-gray-900"} />
+          <img src={isDark ? sidebarImg : logo1} alt="Logo" className="w-16" />
+          <button
+            className="lg:hidden text-2xl"
+            onClick={() => setSidebarOpen(false)}
+          >
+            <X size={24} className={isDark ? "text-white" : "text-gray-900"} />
           </button>
         </div>
 
         <div className="px-5 pb-2">
-          <p className={`text-xs font-semibold uppercase tracking-wide ${isDark ? "text-gray-500" : "text-gray-400"}`}>
+          <p
+            className={`text-xs font-semibold uppercase tracking-wide ${isDark ? "text-gray-500" : "text-gray-400"}`}
+          >
             Admin Panel
           </p>
-          <p className={`text-sm font-bold mt-1 ${isDark ? "text-white" : "text-gray-900"}`}>
+          <p
+            className={`text-sm font-bold mt-1 ${isDark ? "text-white" : "text-gray-900"}`}
+          >
             {user?.username || "Admin"}
           </p>
         </div>
@@ -83,12 +108,12 @@ const handleLogout = () => {
                   isActive
                     ? "bg-[#FC8A06] text-white shadow-md"
                     : isDark
-                    ? "text-gray-300 hover:bg-white/5"
-                    : "text-gray-700 hover:bg-orange-50"
+                      ? "text-gray-300 hover:bg-white/5"
+                      : "text-gray-700 hover:bg-orange-50"
                 }`
               }
             >
-              <link.icon className="w-5 h-5 flex-shrink-0" />
+              <link.icon size={20} className="flex-shrink-0" />
               {link.name}
             </NavLink>
           ))}
@@ -110,7 +135,7 @@ const handleLogout = () => {
             onClick={handleLogout}
             className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-full text-sm font-medium bg-[#03081F] hover:bg-gray-800 text-white transition-colors duration-200"
           >
-            <HiOutlineLogout className="w-5 h-5" />
+            <LogOut size={18} />
             Logout
           </button>
         </div>
@@ -121,13 +146,19 @@ const handleLogout = () => {
         {/* Mobile top bar */}
         <div
           className={`flex lg:hidden items-center justify-between px-4 py-4 sticky top-0 z-30 transition-colors duration-300 ${
-            isDark ? "bg-[#0b1020] border-b border-white/10" : "bg-white border-b border-gray-100"
+            isDark
+              ? "bg-[#0b1020] border-b border-white/10"
+              : "bg-white border-b border-gray-100"
           }`}
         >
           <button onClick={() => setSidebarOpen(true)}>
-            <HiMenu className={`text-2xl ${isDark ? "text-white" : "text-gray-900"}`} />
+            <Menu
+              size={24}
+              className={isDark ? "text-white" : "text-gray-900"}
+            />
           </button>
-          <img src={logo1} alt="Logo" className="w-16" />
+
+          <img src={isDark ? sidebarImg : logo1} alt="Logo" className="w-16" />
           <div className="w-6" />
         </div>
 
