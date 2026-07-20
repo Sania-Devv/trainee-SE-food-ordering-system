@@ -1,7 +1,6 @@
 import { HiArrowRight } from "react-icons/hi";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { BASE_URL } from "../../api/api";
 
 function SimilarDeals() {
   const navigate = useNavigate();
@@ -17,13 +16,15 @@ function SimilarDeals() {
   }
 
   // Current deal ko hata do aur sirf 4 show karo
-
-  const similarDeals = allDeals.filter((deal) => deal.id !== currentDeal?.id);
-
+ 
+ const similarDeals = allDeals.filter((deal) => deal.id !== currentDeal?.id);
+  
   return (
     <section className="bg-white rounded-3xl shadow-sm p-6">
       <div className="flex justify-between items-center mb-6">
-        <h2 className="text-2xl font-bold text-[#03081F]">Similar Deals</h2>
+        <h2 className="text-2xl font-bold text-[#03081F]">
+          Similar Deals
+        </h2>
 
         {/* <button className="text-[#FC8A06] flex items-center gap-2 font-semibold hover:gap-3 transition-all">
           View All
@@ -36,7 +37,8 @@ function SimilarDeals() {
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {similarDeals.map((deal) => {
-            const restaurant = deal.items?.[0]?.menu_item?.restaurant;
+            const restaurant =
+              deal.items?.[0]?.menu_item?.restaurant;
 
             return (
               <div
@@ -47,7 +49,7 @@ function SimilarDeals() {
                 <img
                   src={
                     deal.image
-                      ? `${BASE_URL}${deal.image}`
+                      ? `http://127.0.0.1:8000${deal.image}`
                       : "https://via.placeholder.com/400x300?text=Deal"
                   }
                   alt={deal.name}

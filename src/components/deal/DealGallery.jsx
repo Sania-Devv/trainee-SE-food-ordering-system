@@ -1,11 +1,15 @@
 import { useSelector } from "react-redux";
-import { BASE_URL } from "../../api/api";
-
+import cart from "../../assets/icons/shoppingCart.png";
+import { useNavigate } from "react-router-dom";
 
 function DealGallery() {
+  const navigate = useNavigate();
+  
   const { deal: dealDetail } = useSelector((state) => state.deal);
 
-  const image = dealDetail?.image ? `${BASE_URL}${dealDetail.image}` : null;
+  const image = dealDetail?.image
+    ? `http://127.0.0.1:8000${dealDetail.image}`
+    : null;
 
   return (
     <div className="relative overflow-hidden rounded-3xl h-[300px] sm:h-[380px] lg:h-[460px]">
@@ -20,7 +24,14 @@ function DealGallery() {
           Featured Deal
         </div>
       )}
+    <button
+            onClick={() => navigate("/cart")}
+            className="fixed bottom-6 right-6 z-50 bg-[#FC8A06] p-4 rounded-full shadow-xl hover:scale-110 hover:bg-[#e67a00] transition-transform duration-300 cursor-pointer"
+          >
+            <img src={cart} alt="Cart" className="w-6 h-6 sm:w-7 sm:h-7" />
+          </button>  
     </div>
+
   );
 }
 

@@ -1,21 +1,24 @@
 import { configureStore } from "@reduxjs/toolkit";
 import authReducer from "./slices/authSlice";
-import categoriesReducer from "./slices/categorySlice"
 import menuReducer from "./slices/menuSlice";
-import restaurantReducer from "./slices/restaurantSlice";
-import dealReducer from "./slices/dealSlice";
 import cartReducer from "./slices/cartSlice";
 import orderReducer from "./slices/orderSlice";
+import dealReducer from "./slices/dealSlice";
+import restaurantReducer from "./slices/restaurantSlice";
 import adminAnalyticsReducer from "./slices/adminAnalyticsSlice";
+import orderAdminReducer from "./slices/orderAdminSlice";
+import menuAdminReducer from "./slices/menuAdminSlice";
 export const store = configureStore({
-  reducer: {
-    auth: authReducer,
-    categories: categoriesReducer,
-      menu: menuReducer,
-       restaurants: restaurantReducer,
-       deal: dealReducer,
-       cart: cartReducer,
-      order: orderReducer,
-     adminAnalytics: adminAnalyticsReducer,
-  },
+    reducer:{
+        auth:authReducer,
+        menu:menuReducer,
+        cart:cartReducer,
+        order:orderReducer,
+        deal:dealReducer,
+        restaurants: restaurantReducer,
+        orderAdmin:orderAdminReducer,
+        adminAnalytics:adminAnalyticsReducer,
+        menuAdmin: menuAdminReducer,
+
+    },
 });

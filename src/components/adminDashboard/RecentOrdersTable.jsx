@@ -13,7 +13,7 @@ const RecentOrdersTable = () => {
   const { theme } = useTheme();
   const isDark = theme === "dark";
   const navigate = useNavigate();
-  const { orders } = useSelector((state) => state.order);
+  const { orders } = useSelector((state) => state.orderAdmin);
 
   const recentOrders = orders.slice(0, 5);
 
@@ -33,7 +33,7 @@ const RecentOrdersTable = () => {
         </h2>
 
         <button
-          onClick={() => navigate("/admin/orders")}
+          onClick={() => navigate("/manage-order")}
           className="px-4 py-2 rounded-lg bg-[#FC8A06] text-white text-sm font-medium hover:bg-[#e67d05] transition"
         >
           View All

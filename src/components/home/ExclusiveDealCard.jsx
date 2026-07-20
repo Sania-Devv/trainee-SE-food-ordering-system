@@ -4,27 +4,32 @@ import { useNavigate } from "react-router-dom";
 import { fetchAllDeals } from "../../redux/slices/dealSlice";
 import DealCard from "./DealCard";
 import NextPage from "../../assets/images/Next Page.png";
-import { BASE_URL } from "../../api/api";
+
 
 function ExclusiveDeals() {
-  const [activeTab, setActiveTab] = useState("All");
+const [activeTab, setActiveTab] = useState("All");
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
+const dispatch = useDispatch();
+const navigate = useNavigate();
 
-  const { allDeals, allDealsLoading } = useSelector((state) => state.deal);
-  const categories = ["All", ...new Set(allDeals.map((deal) => deal.name))];
+const { allDeals, allDealsLoading } = useSelector(
+  (state) => state.deal
+);
+const categories = [
+  "All",
+  ...new Set(allDeals.map((deal) => deal.name)),
+];
 
-  useEffect(() => {
-    dispatch(fetchAllDeals());
-  }, [dispatch]);
-  const filteredDeals =
-    activeTab === "All"
-      ? allDeals
-      : allDeals.filter((deal) => deal.name === activeTab);
-  if (allDealsLoading) {
-    return <h2>Loading...</h2>;
-  }
+useEffect(() => {
+  dispatch(fetchAllDeals());
+}, [dispatch]);
+const filteredDeals =
+  activeTab === "All"
+    ? allDeals
+    : allDeals.filter((deal) => deal.name === activeTab);
+if (allDealsLoading) {
+  return <h2>Loading...</h2>;
+}
   return (
     <section className="max-w-7xl mx-auto px-4 sm:px-5 lg:px-8 py-5 sm:py-6">
       {/* Header*/}
@@ -100,7 +105,6 @@ snap-x
 snap-mandatory
 no-scrollbar
 gap-4
-
 lg:grid
 lg:grid-cols-3
 lg:gap-6
@@ -110,7 +114,7 @@ lg:overflow-visible
         {filteredDeals.map((deal) => (
           <div
             key={deal.id}
-            onClick={() => navigate(`/deal/${deal.id}`)}
+  onClick={() => navigate(`/deal/${deal.id}`)}
             className="
       snap-start
       min-w-full
@@ -120,15 +124,15 @@ lg:overflow-visible
       flex-shrink-0
       "
           >
-            <DealCard
-              image={
-                deal.image
-                  ? `${BASE_URL}${deal.image}`
-                  : "https://via.placeholder.com/400x300?text=Deal"
-              }
-              discount={deal.is_featured ? "Featured" : "Deal"}
-              name={deal.name}
-            />
+        <DealCard
+  image={
+    deal.image
+      ? `http://127.0.0.1:8000${deal.image}`
+      : null
+  }
+  discount={deal.is_featured ? "Featured" : "Deal"}
+  name={deal.name}
+/>
           </div>
         ))}
       </div>

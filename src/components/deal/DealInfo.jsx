@@ -9,6 +9,8 @@ import {
 } from "react-icons/hi";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../../redux/slices/cartSlice";
+import useToast from "../../hooks/useToast";
+
 function DealInfo() {
   const { deal: dealDetail, loading } = useSelector((state) => state.deal);
 
@@ -19,22 +21,23 @@ function DealInfo() {
   const restaurant = dealDetail.items?.[0]?.menu_item?.restaurant;
   const category = dealDetail.items?.[0]?.menu_item?.category;
 
-const navigate = useNavigate();
-const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const toast = useToast();
 
-const handleAddToCart = () => {
-  dispatch(
-    addToCart({
-     menu_item_id: 0,
-    deal_id: dealDetail.id,
-    })
-  );
-    // Test ke liye — confirm karne ke liye ke click ho raha hai
-    navigate("/cart");
-};
+  // const handleAddToCart = () => {
+  //   dispatch(
+  //     addToCart({
+  //      menu_item_id: 0,
+  //     deal_id: dealDetail.id,
+  //     })
+  //   );
+  // };
   return (
-    <div className="bg-white rounded-3xl h-[500px] lg:h-[560px] flex flex-col 
-     p-2">
+    <div
+      className="bg-white rounded-3xl h-[500px] lg:h-[560px] flex flex-col 
+     p-2"
+    >
       <div>
         {/* Restaurant */}
         <div className="flex items-center gap-2 mb-2">
@@ -56,7 +59,9 @@ const handleAddToCart = () => {
           <HiStar className="text-yellow-400 text-lg" />
           <HiStar className="text-yellow-400 text-lg" />
           <HiStar className="text-yellow-400 text-lg" />
-          <span className="ml-2 text-gray-500 text-sm">(4.9 • 320 Reviews)</span>
+          <span className="ml-2 text-gray-500 text-sm">
+            (4.9 • 320 Reviews)
+          </span>
         </div>
 
         {/* Description */}
@@ -92,8 +97,22 @@ const handleAddToCart = () => {
 
         {/* Add To Cart */}
         <div className="mt-6">
-          <button  onClick={handleAddToCart} 
-          className="w-full bg-[#FC8A06] hover:bg-[#e97800] text-white rounded-xl py-3 font-semibold flex justify-center items-center gap-2 transition">
+          <button
+            onClick={async () => {
+              try {
+                const result = await dispatch(
+                  addToCart({
+                    menu_item_id: 0,
+                    deal_id: dealDetail.id,
+                  }),
+                ).unwrap();
+                toast.success(result.message);
+              } catch (error) {
+                toast.error(error.message || "Failed to add item");
+              }
+            }}
+            className="w-full bg-[#FC8A06] hover:bg-[#e97800] text-white rounded-xl py-3 font-semibold flex justify-center items-center gap-2 transition"
+          >
             <HiShoppingCart className="text-xl" />
             Add To Cart
           </button>
@@ -104,7 +123,9 @@ const handleAddToCart = () => {
       <div className="grid grid-cols-2 gap-4 mt-6">
         <div className="border rounded-xl p-3">
           <p className="text-gray-500 text-xs">Category</p>
-          <h3 className="font-semibold mt-1 text-sm">{category?.name || "N/A"}</h3>
+          <h3 className="font-semibold mt-1 text-sm">
+            {category?.name || "N/A"}
+          </h3>
         </div>
 
         <div className="border rounded-xl p-3">

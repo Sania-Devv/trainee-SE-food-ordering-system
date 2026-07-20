@@ -1,12 +1,13 @@
 function DealCard({ image, discount, name }) {
   return (
-    <div className="relative w-full rounded-2xl overflow-hidden cursor-pointer group bg-white">
+    <div className="relative w-full rounded-2xl overflow-hidden cursor-pointer group  bg-white">
       <div className="relative  overflow-hidden rounded-t-2xl lg:rounded-2xl">
         <img
           src={image}
           alt={name}
          className="
     w-full
+    border
     h-[160px]
     sm:h-[200px]
     lg:h-[260px]

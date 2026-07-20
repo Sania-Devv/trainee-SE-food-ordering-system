@@ -11,7 +11,7 @@ import OrderDetailModal from "../../components/adminOrders/OrderDetailModal";
 import {
   fetchAllOrders,
   updateOrderStatus,
-} from "../../redux/slices/orderSlice";
+} from "../../redux/slices/orderAdminSlice";
 
 const ManageOrders = () => {
   const dispatch = useDispatch();
@@ -24,7 +24,7 @@ const [selectedOrder, setSelectedOrder] = useState(null);
   const debouncedSearch = useDebounce(search, 500);
 const [selectedStatus, setSelectedStatus] = useState("all");
   const { orders, loading, error, updatingOrderId } = useSelector(
-    (state) => state.order
+    (state) => state.orderAdmin
   );
 
   useEffect(() => {

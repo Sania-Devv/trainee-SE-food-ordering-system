@@ -1,18 +1,32 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import {
+  createSlice,
+  createAsyncThunk,
+  isRejectedWithValue,
+} from "@reduxjs/toolkit";
 import { BASE_URL } from "../../api/api";
 import { ENDPOINTS } from "../../api/endpoints";
 
-// Saari orders fetch karo (admin)
-export const fetchAllOrders = createAsyncThunk(
-  "order/fetchAllOrders",
-  async (_, { rejectWithValue }) => {
-    const token = localStorage.getItem("token");
+const initialState = {
+  orders: [],
+  currentOrder: null,
+  payment: null,
+  loading: false,
+  error: null,
+  successMessage: "",
+};
 
+export const checkoutOrder = createAsyncThunk(
+  "order/checkoutOrder",
+  async (checkoutData, { rejectWithValue, getState }) => {
     try {
-      const response = await fetch(`${BASE_URL}${ENDPOINTS.GET_ALL_ORDERS}`, {
+      const token = getState().auth.accessToken;
+      const response = await fetch(`${BASE_URL}${ENDPOINTS.CHECKOUT}`, {
+        method: "POST",
         headers: {
+          "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
+        body: JSON.stringify(checkoutData),
       });
 
       const data = await response.json();
@@ -28,27 +42,74 @@ export const fetchAllOrders = createAsyncThunk(
   },
 );
 
-// Order ka status update karo
-export const updateOrderStatus = createAsyncThunk(
-  "order/updateOrderStatus",
-  async ({ orderId, status }, { rejectWithValue }) => {
-    const token = localStorage.getItem("token");
+export const fetchOrders = createAsyncThunk(
+  "order/fetchOrders",
 
+  async (_, { rejectWithValue, getState }) => {
     try {
+      const token = getState().auth.accessToken;
+      const response = await fetch(`${BASE_URL}${ENDPOINTS.GET_ORDERS}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      const data = await response.json();
+      if (!response.ok) {
+        return rejectWithValue(data);
+      }
+
+      return data;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  },
+);
+
+export const fetchSingleOrder = createAsyncThunk(
+  "order/fetchSingleOrder",
+
+  async (orderId, { rejectWithValue, getState }) => {
+    try {
+      const token = getState().auth.accessToken;
       const response = await fetch(
-        `${BASE_URL}${ENDPOINTS.UPDATE_ORDER_STATUS}${orderId}/status/`,
+        `${BASE_URL}${ENDPOINTS.GET_SINGLE_ORDER}${orderId}`,
         {
-          method: "PATCH",
           headers: {
-            "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
-          body: JSON.stringify({status: status }),
         },
       );
 
       const data = await response.json();
+      if (!response.ok) {
+        return rejectWithValue(data);
+      }
 
+      return data;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  },
+);
+
+export const cancelOrder = createAsyncThunk(
+  "order/cancelOrder",
+
+  async (orderId, { rejectWithValue, getState }) => {
+    try {
+      const token = getState().auth.accessToken;
+      const response = await fetch(
+        `${BASE_URL}${ENDPOINTS.CANCEL_ORDER}${orderId}/cancel/`,
+        {
+          method: "PATCH",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+
+      const data = await response.json();
       if (!response.ok) {
         return rejectWithValue(data);
       }
@@ -62,47 +123,56 @@ export const updateOrderStatus = createAsyncThunk(
 
 const orderSlice = createSlice({
   name: "order",
-
-  initialState: {
-    orders: [],
-    loading: false,
-    error: null,
-    updatingOrderId: null, // konsa order abhi update ho raha hai (dropdown disable karne ke liye)
-  },
-
+  initialState,
   reducers: {},
-
   extraReducers: (builder) => {
     builder
-      // Fetch all orders
-      .addCase(fetchAllOrders.pending, (state) => {
-        state.loading = true;
-        state.error = null;
+      .addCase(checkoutOrder.pending, (state) => {
+        ((state.loading = true), (state.error = null));
       })
-      .addCase(fetchAllOrders.fulfilled, (state, action) => {
+      .addCase(checkoutOrder.fulfilled, (state, action) => {
         state.loading = false;
-        state.orders = action.payload.data;
+        state.successMessage = action.payload.message;
+        state.payment = action.payload.payment;
       })
-      .addCase(fetchAllOrders.rejected, (state, action) => {
+      .addCase(checkoutOrder.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })
-
-      // Update status
-      .addCase(updateOrderStatus.pending, (state, action) => {
-        state.updatingOrderId = action.meta.arg.orderId;
+      .addCase(fetchOrders.pending, (state) => {
+        state.loading = true;
       })
-      .addCase(updateOrderStatus.fulfilled, (state, action) => {
-        state.updatingOrderId = null;
-        const updatedOrder = action.payload.data;
-
-        // Local list mein bhi wahi order update kar do (dobara fetch kiye bina)
-        state.orders = state.orders.map((order) =>
-          order.order_id === updatedOrder.order_id ? updatedOrder : order,
-        );
+      .addCase(fetchOrders.fulfilled, (state, action) => {
+        state.loading = false;
+        state.orders = action.payload.data;
       })
-      .addCase(updateOrderStatus.rejected, (state, action) => {
-        state.updatingOrderId = null;
+      .addCase(fetchOrders.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(fetchSingleOrder.pending, (state) => {
+        state.loading = true;
+      })
+
+      .addCase(fetchSingleOrder.fulfilled, (state, action) => {
+        state.loading = false;
+        state.currentOrder = action.payload.data;
+      })
+
+      .addCase(fetchSingleOrder.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(cancelOrder.pending, (state) => {
+        state.loading = true;
+      })
+
+      .addCase(cancelOrder.fulfilled, (state) => {
+        state.loading = false;
+      })
+
+      .addCase(cancelOrder.rejected, (state, action) => {
+        state.loading = false;
         state.error = action.payload;
       });
   },

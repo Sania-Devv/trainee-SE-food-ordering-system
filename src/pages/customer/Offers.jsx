@@ -1,9 +1,10 @@
 import React from 'react'
-import Home from "../customer/Home"
+import Home from './Home'
+
 export default function Offers() {
   return (
-    <>
-    <Home /> 
-    </>
+    <div>
+      <Home/>
+    </div>
   )
 }

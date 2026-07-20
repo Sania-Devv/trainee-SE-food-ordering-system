@@ -18,7 +18,7 @@ const categories = [
 
 function PopularCategories() {
   return (
-    <section className="max-w-7xl mx-auto px-4 sm:px-5 lg:px-8 py-5 sm:py-6">
+    <section className="max-w-7xl mx-auto mt-8 px-4">
       <h2 className="text-base sm:text-lg lg:text-xl font-bold text-[#03081F] mb-4 sm:mb-6">
         Order.uk Popular Categories 🤩
       </h2>

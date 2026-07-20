@@ -1,20 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useTheme } from "../../context/ThemeContext";
 import { useDispatch, useSelector } from "react-redux";
-import { registerUser, clearAuthState } from "../../redux/slices/authSlice";
-import { useToast } from "../../context/ToastContext";
-
+import { registerUser } from "../../redux/slices/authSlice";
+import { useNavigate } from "react-router-dom";
+import useToast from "../../hooks/useToast";
 const Signup = () => {
+  const toast = useToast();
   const { theme } = useTheme();
   const isDark = theme === "dark";
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const { showToast } = useToast();
-
-  const { loading, error, success, successMessage } = useSelector(
-    (state) => state.auth
-  );
 
   const [formData, setFormData] = useState({
     email: "",
@@ -26,7 +20,34 @@ const Signup = () => {
   });
   const [errors, setErrors] = useState({});
   const [showPassword, setShowPassword] = useState(false);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  // const [signupError, setSignupError] = useState("");
 
+  const { loading, error } = useSelector((state) => state.auth);
+  // useEffect(() => {
+  //   if (error) {
+  //     let message = "Registration Failed";
+
+  //     if (typeof error === "string") {
+  //       message = error;
+  //     } else if (error?.error?.email) {
+  //       message = error.error.email;
+  //     } else if (error?.error?.username) {
+  //       message = error.error.username;
+  //     } else if (error?.error) {
+  //       message = JSON.stringify(error.error);
+  //     }
+
+  //     setSignupError(message);
+
+  //     const timer = setTimeout(() => {
+  //       setSignupError("");
+  //     }, 3000);
+
+  //     return () => clearTimeout(timer);
+  //   }
+  // }, [error]);
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -35,17 +56,15 @@ const Signup = () => {
     }
   };
 
- const validate = () => {
-  const newErrors = {};
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+  const validate = () => {
+    const newErrors = {};
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-  const trimmedEmail = formData.email.trim();
-
-  if (!trimmedEmail) {
-    newErrors.email = "Email is required";
-  } else if (!emailRegex.test(trimmedEmail)) {
-    newErrors.email = "Enter a valid email address";
-  }
+    if (!formData.email.trim()) {
+      newErrors.email = "Email is required";
+    } else if (!emailRegex.test(formData.email)) {
+      newErrors.email = "Enter a valid email address";
+    }
 
     if (!formData.username.trim()) {
       newErrors.username = "Username is required";
@@ -77,38 +96,32 @@ const Signup = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  // Success -> backend ka message toast mein dikhao + redirect
-  useEffect(() => {
-    if (success) {
-      showToast(successMessage || "Account created successfully", "success");
-      dispatch(clearAuthState());
-      navigate("/login");
-    }
-  }, [success, successMessage, dispatch, navigate, showToast]);
-
-  // Error -> backend ka error message toast mein dikhao
-  useEffect(() => {
-    if (error) {
-      showToast(error, "error");
-      dispatch(clearAuthState());
-    }
-  }, [error, dispatch, showToast]);
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
     if (!validate()) return;
-
-    dispatch(
-      registerUser({
+    try {
+      const payload = {
         email: formData.email,
         username: formData.username,
         password: formData.password,
         confirm_password: formData.confirmPassword,
         country: formData.country,
         city: formData.city,
-      })
-    );
+      };
+
+      // TODO (backend integration):
+      // dispatch(registerUser(payload)) -> authSlice async thunk
+      // on success -> auto-login or redirect to /login
+      const result = await dispatch(registerUser(payload)).unwrap();
+      toast.success(result.message);
+      if (result.data.is_admin) {
+        navigate("/admin");
+      } else {
+        navigate("/");
+      }
+    } catch (error) {
+      toast.error(error.error.email || "Registration Failed");
+    }
   };
 
   return (
@@ -124,10 +137,14 @@ const Signup = () => {
       >
         {/* Header */}
         <div className="text-center mb-8">
-          <p className={`text-sm mb-1 ${isDark ? "text-orange-400" : "text-orange-500"}`}>
+          <p
+            className={`text-sm mb-1 ${isDark ? "text-orange-400" : "text-orange-500"}`}
+          >
             I'm lovin' it!
           </p>
-          <h1 className={`text-2xl sm:text-3xl font-extrabold ${isDark ? "text-white" : "text-gray-900"}`}>
+          <h1
+            className={`text-2xl sm:text-3xl font-extrabold ${isDark ? "text-white" : "text-gray-900"}`}
+          >
             Create your account
           </h1>
         </div>
@@ -183,7 +200,9 @@ const Signup = () => {
               } ${errors.username ? "border-red-500" : ""}`}
             />
             {errors.username && (
-              <p className="text-red-500 text-xs mt-1 ml-2">{errors.username}</p>
+              <p className="text-red-500 text-xs mt-1 ml-2">
+                {errors.username}
+              </p>
             )}
           </div>
 
@@ -211,7 +230,9 @@ const Signup = () => {
                 } ${errors.country ? "border-red-500" : ""}`}
               />
               {errors.country && (
-                <p className="text-red-500 text-xs mt-1 ml-2">{errors.country}</p>
+                <p className="text-red-500 text-xs mt-1 ml-2">
+                  {errors.country}
+                </p>
               )}
             </div>
 
@@ -276,7 +297,9 @@ const Signup = () => {
               </button>
             </div>
             {errors.password && (
-              <p className="text-red-500 text-xs mt-1 ml-2">{errors.password}</p>
+              <p className="text-red-500 text-xs mt-1 ml-2">
+                {errors.password}
+              </p>
             )}
           </div>
 
@@ -303,7 +326,9 @@ const Signup = () => {
               } ${errors.confirmPassword ? "border-red-500" : ""}`}
             />
             {errors.confirmPassword && (
-              <p className="text-red-500 text-xs mt-1 ml-2">{errors.confirmPassword}</p>
+              <p className="text-red-500 text-xs mt-1 ml-2">
+                {errors.confirmPassword}
+              </p>
             )}
           </div>
 
@@ -318,9 +343,14 @@ const Signup = () => {
         </form>
 
         {/* Footer */}
-        <p className={`text-center text-sm mt-6 ${isDark ? "text-gray-300" : "text-gray-600"}`}>
+        <p
+          className={`text-center text-sm mt-6 ${isDark ? "text-gray-300" : "text-gray-600"}`}
+        >
           Already have an account?{" "}
-          <Link to="/login" className="text-orange-500 font-semibold hover:underline">
+          <Link
+            to="/login"
+            className="text-orange-500 font-semibold hover:underline"
+          >
             Login
           </Link>
         </p>
