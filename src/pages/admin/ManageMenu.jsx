@@ -55,7 +55,7 @@ const ManageMenu = () => {
   const [deleteId, setDeleteId] = useState(null);
 
   useEffect(() => {
-    console.log("ManageMenu mounted");
+    // console.log("ManageMenu mounted");
 
     dispatch(fetchMenuItems());
     dispatch(fetchRestaurants());
@@ -142,7 +142,7 @@ const ManageMenu = () => {
       if (updateMenuItem.fulfilled.match(result)) {
         closeModal();
       } else {
-        console.error("Update failed:", result.payload);
+        // console.error("Update failed:", result.payload);
         alert("Failed to update item.");
       }
     } else {
@@ -150,7 +150,7 @@ const ManageMenu = () => {
       if (createMenuItem.fulfilled.match(result)) {
         closeModal();
       } else {
-        console.error("Create failed:", result.payload);
+        // console.error("Create failed:", result.payload);
         alert("Failed to add item.");
       }
     }
@@ -165,7 +165,7 @@ const ManageMenu = () => {
     const result = await dispatch(deleteMenuItem(deleteId));
 
     if (!deleteMenuItem.fulfilled.match(result)) {
-      console.error("Delete failed:", result.payload);
+      // console.error("Delete failed:", result.payload);
       alert("Failed to delete item.");
     }
 
