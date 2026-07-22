@@ -40,6 +40,7 @@ const bottomLinks = [
 ];
 
 function Footer() {
+  console.log("testing");
   return (
     <footer className="w-full bg-[#D9D9D9] mt-15">
       <div className="py-10 sm:py-16">
