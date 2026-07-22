@@ -33,8 +33,8 @@ function WhatsIncluded() {
               <img
                 src={
                   item.menu_item?.image
-                    ? `http://127.0.0.1:8000${item.menu_item.image}`
-                    : "https://via.placeholder.com/300x220?text=No+Image"
+                    ? `${BASE_URL}${item.menu_item.image}`
+                    : null
                 }
                 alt={item.menu_item?.name}
                 className="w-full h-44 object-cover"

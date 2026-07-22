@@ -49,8 +49,8 @@ function SimilarDeals() {
                 <img
                   src={
                     deal.image
-                      ? `http://127.0.0.1:8000${deal.image}`
-                      : "https://via.placeholder.com/400x300?text=Deal"
+                      ? `${BASE_URL}${deal.image}`
+                      : null
                   }
                   alt={deal.name}
                   className="w-full h-44 object-cover"

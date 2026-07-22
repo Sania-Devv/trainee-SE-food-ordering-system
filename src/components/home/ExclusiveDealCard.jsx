@@ -127,7 +127,7 @@ lg:overflow-visible
         <DealCard
   image={
     deal.image
-      ? `http://127.0.0.1:8000${deal.image}`
+      ? `${BASE_URL}${deal.image}`
       : null
   }
   discount={deal.is_featured ? "Featured" : "Deal"}

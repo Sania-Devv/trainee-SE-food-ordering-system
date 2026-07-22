@@ -12,7 +12,7 @@ function RestaurantInfo() {
   const restaurant = deal?.items?.[0]?.menu_item?.restaurant;
 
   const image = restaurant?.image
-    ? `http://127.0.0.1:8000${restaurant.image}`
+    ? `${BASE_URL}${restaurant.image}`
     : null;
 
   return (
