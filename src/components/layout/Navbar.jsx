@@ -4,7 +4,7 @@ import { HiMenu, HiX } from "react-icons/hi";
 import logoDark from "../../assets/logos/logoWhite.png";
 import logo1 from "../../assets/logos/LOGO 1.png";
 import maleuser from "../../assets/icons/Male User.png";
-import maleuserDark from "../../assets/icons/maleUserDark.png";
+import maleuserDark from "../../assets/icons/maleuserDark.png";
 import TopBar from "./TopBar";
 import { useTheme } from "../../context/ThemeContext";
 import { useSelector, useDispatch } from "react-redux";
@@ -29,7 +29,7 @@ export default function Navbar() {
     { name: "Restaurants", path: "/restaurants" },
     { name: "Track Order", path: "/track-order" },
   ];
-console.log("chnange icon");
+  console.log("chnange icon");
   return (
     <>
       {/* Mobile: Navbar upar, TopBar neeche (flex-col-reverse)
