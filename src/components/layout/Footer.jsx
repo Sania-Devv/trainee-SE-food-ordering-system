@@ -2,7 +2,7 @@ import Logo from "../../assets/logos/Logo.png";
 import AppStore from "../../assets/images/AppStore.png";
 import PlayStore from "../../assets/images/PlayStore.png";
 import Facebook from "../../assets/icons/Facebook.png";
-import Instagram from "../../assets/icons/instagram.png";
+import Instagram from "../../assets/icons/Instagram.png";
 import TikTok from "../../assets/icons/TikTok.png";
 import Snapchat from "../../assets/icons/Snapchat.png";
 

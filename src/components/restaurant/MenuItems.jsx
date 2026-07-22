@@ -5,12 +5,12 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 // Icons & Images Imports
 import cart from "../../assets/icons/shoppingCart.png";
-import plus from "../../assets/images/plus.png";
+import plus from "../../assets/images/Plus.png";
 import firstOrderDis from "../../assets/images/firstOrderDis.png";
 import veganDis from "../../assets/images/veganDis.png";
 import iceCreamOffer from "../../assets/images/iceCreamOffer.png";
 import menuIcon from "../../assets/icons/restaurantMenuIcon.png";
-import plusBgImg from "../../assets/images/plusBgImg.png";
+import plusBgImg from "../../assets/images/plusbgimg.png";
 import { useTheme } from "../../context/ThemeContext";
 import { fetchCategories, fetchMenuItems } from "../../redux/slices/menuSlice";
 import { BASE_URL } from "../../api/api";
