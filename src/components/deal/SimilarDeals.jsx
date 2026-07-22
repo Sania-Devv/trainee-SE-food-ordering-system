@@ -1,7 +1,7 @@
 import { HiArrowRight } from "react-icons/hi";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-
+import { BASE_URL } from "../../api/api";
 function SimilarDeals() {
   const navigate = useNavigate();
 

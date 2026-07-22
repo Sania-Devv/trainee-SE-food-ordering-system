@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-
+import { BASE_URL } from "../../api/api";
 function WhatsIncluded() {
   const { deal: dealDetail, loading } = useSelector(
     (state) => state.deal

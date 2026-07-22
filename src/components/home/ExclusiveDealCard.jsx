@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { fetchAllDeals } from "../../redux/slices/dealSlice";
 import DealCard from "./DealCard";
 import NextPage from "../../assets/images/Next page.png";
-
+import { BASE_URL } from "../../api/api";
 
 function ExclusiveDeals() {
 const [activeTab, setActiveTab] = useState("All");

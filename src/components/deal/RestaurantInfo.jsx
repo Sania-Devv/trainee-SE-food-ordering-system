@@ -5,7 +5,7 @@ import {
   HiClock,
   HiStar,
 } from "react-icons/hi";
-
+import { BASE_URL } from "../../api/api";
 function RestaurantInfo() {
   const { deal } = useSelector((state) => state.deal);
 
