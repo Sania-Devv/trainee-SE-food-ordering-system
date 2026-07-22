@@ -29,7 +29,7 @@ export default function Navbar() {
     { name: "Restaurants", path: "/restaurants" },
     { name: "Track Order", path: "/track-order" },
   ];
-
+console.log("chnange icon");
   return (
     <>
       {/* Mobile: Navbar upar, TopBar neeche (flex-col-reverse)
